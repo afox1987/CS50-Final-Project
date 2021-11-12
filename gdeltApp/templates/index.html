@@ -1,0 +1,475 @@
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GDELT API </title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.png' %}">
+<!--
+
+Tooplate 2095 Level
+
+https://www.tooplate.com/view/2095-level
+
+-->
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="{% static 'assets/font-awesome-4.7.0/css/font-awesome.min.css' %}">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/slick/slick.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/slick/slick-theme.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/datepicker.css' %}"/>
+    <link rel="stylesheet" href="{% static 'assets/css/tooplate-style.css' %}">    
+	<script src="{% static 'assets/js/jquery-1.11.3.min.js' %}"></script>                                 <!-- Templatemo style -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+</head>
+
+    <body>
+        <style>
+            #img_logo
+            {
+                height: 100px;
+                width: 270px;
+            }
+        </style>
+        <div class="tm-main-content" id="top">
+            <div class="tm-top-bar-bg"></div>
+            <div class="tm-top-bar" id="tm-top-bar">
+                <!-- Top Navbar -->
+                <div class="container">
+                    <div class="row">
+                        
+                        <nav class="navbar navbar-expand-lg narbar-light">
+                            <a class="navbar-brand mr-auto" href="#">
+                                <img src="{% static 'assets/img/logo.png' %}" alt="Site logo" id="img_logo">
+                            </a>
+                            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                                <ul class="navbar-nav ml-auto">
+                                  <li class="nav-item">
+                                    <a class="nav-link" id="index" href="{% url 'index' %}">Latest News <span class="sr-only">(current)</span></a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" id="mapView" href="{% url 'mapView' %}">Map View</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" id="articleView" href="{% url 'articleView' %}">Article View</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" id="contact" href="{% url 'contact' %}">Contact Us</a>
+                                  </li>
+                                </ul>
+                            </div>                                  
+                        </nav>            
+                    </div>
+                </div>
+            </div>
+            <div class="tm-section tm-bg-img" id="tm-section-1">  
+                <div class="col text-center">
+                    <h2 class="tm-section-title">Want to get more information?</h2>
+                    <p class="tm-color-white tm-section-subtitle">Contact us to get our insights</p>
+                    <a href="{% url 'contact' %}" class="tm-color-white tm-btn-white-bordered">Contact Now</a>
+                </div>             
+            </div>
+            
+            <div class="tm-section tm-position-relative">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none" class="tm-section-down-arrow">
+                    <polygon fill="#ee5057" points="0,0  100,0  50,60"></polygon>                   
+                </svg> 
+                <div class="container tm-pt-5 tm-pb-4" style="margin-left: 5%;">
+                    <div class="row text-center">
+						<div class="row text-center" style="height: 700px;" id="divMap">
+                      <!-- main API -->
+	<link rel="stylesheet" href="{% static 'assets/css/leaflet-1.0.3/leaflet.css' %}"/>
+	<script src="{% static 'assets/js/leaflet-1.0.3/leaflet.js' %}"></script>
+	
+	<!-- fullscreen api -->
+	<script src="{% static 'assets/js/leaflet-1.0.3-fullscreen/leaflet.fullscreen.min.js' %}"></script>
+	<link href="{% static 'assets/css/leaflet-1.0.3-fullscreen/leaflet.fullscreen.css' %}" rel='stylesheet' />
+	
+	<!-- core styling -->
+	<style>
+		 #map {
+	        height: 70vh;
+	        width: 90vw;
+	    }
+	</style>
+
+	<style>
+	<!-- info box and legend
+	    .info {
+	    	padding: 6px 8px;
+		font: 14px/16px Arial, Helvetica, sans-serif;
+		background: white; background: rgba(255,255,255,0.8);
+		box-shadow: 0 0 15px rgba(0,0,0,0.2);
+		border-radius: 5px;
+	    }
+	    .info h4 {
+	    	margin: 0 0 5px; color: #777;
+	    }
+	    .legend {
+	   	text-align: left;
+		line-height: 18px;
+		color: #555;
+	    }
+	    .legend i {
+	   	width: 18px;
+	   	height: 18px;
+	   	float: left;
+	   	margin-right: 8px;
+	   	opacity: 0.7;
+	    }
+	</style>
+
+	<!-- customized popup -->
+	<style>
+	    .leaflet-popup-content {
+		margin: 0px;
+	    }
+	    
+	    .popupCustom .leaflet-popup-tip,
+	    .popupCustom .leaflet-popup-content-wrapper {
+		background: #FFFFFF;
+		color: #234c5e;
+		overflow: hidden;
+		padding: 0px;
+	    }
+	    .popupCustom .leaflet-popup-close-button {
+		left: 205px;
+		top: -10px;
+		color: #ffffff !important;
+		text-shadow: 0 0 10px #000000, -2px 0 6px rgba(0,0,0,0.7), 2px 0 6px rgba(0,0,0,0.7), 0px 2px 6px rgba(0,0,0,0.7), 0px -2px 6px rgba(0,0,0,0.7) !important;
+	    }
+	    .popupCustom a.leaflet-popup-close-button:hover {
+		color: #000000 !important;
+		text-shadow: 0 0 10px #ffffff, -2px 0 6px rgba(255,255,255,0.7), 2px 0 6px rgba(255,255,255,0.7), 0px 2px 6px rgba(255,255,255,0.7), 0px -2px 6px rgba(255,255,255,0.7) !important;
+	    }
+	    
+	    .popupCustom .leaflet-popup-content.leaflet-popup-scrolled {
+		background: #FFFFFF;
+		overflow: hidden;
+		margin-top: -2px;
+		margin-left: -2px;
+		margin-right: -2px;
+	    }
+	    
+	</style>
+	
+	<!-- our thumbnail images for "image" modes... -->
+	<style>
+	.thumbimg {
+	    object-fit: cover;
+	    overflow: hidden;
+	    height: 100px;
+	    width: 175px;
+	    margin-bottom: -5px;
+	    -webkit-filter: brightness(100%);
+	    -webkit-transition: all 1s ease;
+	    -moz-transition: all 1s ease;
+	    -o-transition: all 1s ease;
+	    -ms-transition: all 1s ease;
+	    transition: all 1s ease;
+	    box-shadow: 0 0 2px rgba(0,0,0,0.2); border-radius: 5px;
+	}
+	.thumbimg:hover {
+	    -webkit-filter: brightness(30%);
+	}
+	</style>
+
+</head>
+<body>
+
+<div id='map'></div>
+
+<script type="text/javascript" src="{% static 'assets/geojson/master-world-country.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/geostats/geostats.min.js' %}"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.ajax({
+            type:"GET",
+            url: "/getmainView",
+            data: {},
+            success: function( data ) 
+            {   
+				var data_shareimage = {};
+				var data_html = {};
+				var data_count = {};
+				$.each(data.codes, function(index, val) {
+					console.log(data.urls[index]);
+					data_count[data.codes[index]] = data.values[index];
+					data_html[data.codes[index]] = data.urls[index];
+				});
+    function export_embed() {
+        var win = window.open("", "_blank");
+        win.document.body.innerHTML = "<html><head><title>GDELT API Embed This Visualization</title></head><body>To embed this visualization on your own webpage, add the following HTML where you would like it to appear: <pre>&lt;iframe src=\"" + window.location.href + "\" scrolling=\"no\" width=100% frameborder=\"0\" height=500&gt;&lt;/iframe&gt;<br></pre><br></body></html>";
+    }
+
+
+    // iterate over our geometry basemap and copy over the values from our input JS...
+    var vals = [];
+    for(i=0;i<countrymap.features.length;i++) {
+	//copy over the values... results in undef for places with no data...
+	countrymap.features[i].properties.density = data_count[countrymap.features[i].properties.gnscc];
+	//save the values for the jenks legend...
+	if (data_count[countrymap.features[i].properties.gnscc] > 0) { vals.push(data_count[countrymap.features[i].properties.gnscc]); }
+    }
+    
+    //and compute the jenks ranges...
+    var numranges = 7;
+    var classes = [];
+    var colorramp = [];
+   
+    if (vals.length > 1) {
+	//var series = new geostats(vals.sort(function (a, b) {  return a - b;  }));
+	var series = new geostats(vals);
+	if (series.getClassUniqueValues().length <= 7) { numranges = series.getClassUniqueValues().length - 1; } //if less than 7 unique values in the dataset, set range down to uniques...
+	classes = series.getClassJenks(numranges);
+	for(i=0;i<classes.length;i++) { classes[i] = classes[i] * 1; } //fix bug in geostats that returns middle classes as strings...
+	classes.sort(function (a, b) {  return a - b;  });
+	//if (classes[0] == 0) { classes.shift(); numranges--; } //geostats sometimes returns 0 as first element even though we prevent 0 from being in the data...
+	classes[0] = 0;
+	//repeat the below several times as sometimes we end up with multiple 0's to start...
+	if (classes[0] == 0 && classes[1] == 0) { classes.shift(); numranges--; } //if first two elements are 0, then drop the second... happens sometimes oddly...
+	if (classes[0] == 0 && classes[1] == 0) { classes.shift(); numranges--; } //if first two elements are 0, then drop the second... happens sometimes oddly...
+	if (classes[0] == 0 && classes[1] == 0) { classes.shift(); numranges--; } //if first two elements are 0, then drop the second... happens sometimes oddly...
+	if (classes[0] == 0 && classes[1] == 0) { classes.shift(); numranges--; } //if first two elements are 0, then drop the second... happens sometimes oddly...
+	if (classes[0] == 0 && classes[1] == 0) { classes.shift(); numranges--; } //if first two elements are 0, then drop the second... happens sometimes oddly...
+	if (classes[0] == 0 && classes[1] == 0) { classes.shift(); numranges--; } //if first two elements are 0, then drop the second... happens sometimes oddly...
+	if (classes[0] == 0 && classes[1] == 0) { classes.shift(); numranges--; } //if first two elements are 0, then drop the second... happens sometimes oddly...
+	if (classes[0] == 0 && classes[1] == 0) { classes.shift(); numranges--; } //if first two elements are 0, then drop the second... happens sometimes oddly...
+	
+	
+	//if we have less than 7 ranges, see if we can boost the number of ranges by splitting off some of the upper values...
+	if (numranges < 7) {
+	    for(i=classes.length-2;i>=0;i--) {
+	    	if (numranges < 7) {
+	    	    classes.splice(i+1, 0, ((classes[i] + classes[i+1])/2));
+		    i--;
+		    numranges++;
+		}
+	    }
+	}
+	
+    } else if (vals.length == 1) {
+    	//just one data point, so just treat as single class...
+	numranges = -1; //stop the colorramp code from running, since we're going to manually set here...
+	classes[0] = vals[0];
+	classes[1] = vals[0];
+	colorramp[0] = '#800026';
+    } else {
+    	//no data of any kind...
+    }
+    
+    /* ########################################### */
+    //calculate our dynamic color ramp based on the number of classes...
+    var color_start = 0xFFEDA0, color_end = 0x800026;
+    rs = (color_start & 0xff0000) >> 16; 
+    gs = (color_start & 0x00ff00) >> 8; 
+    bs = (color_start & 0x0000ff) >> 0; 
+    re = (color_end & 0xff0000) >> 16; 
+    ge = (color_end & 0x00ff00) >> 8; 
+    be = (color_end & 0x0000ff) >> 0;
+    
+    function interpolate(start, end, step, numsteps) { 
+	if (start < end) {
+	    return ((end - start) * (step / numsteps)) + start; 
+	} else {
+	    return ((start - end) * (1 - (step / numsteps))) + end;
+	}
+    }
+    
+    for(i=0;i<numranges;i++) {
+    	r = interpolate(rs, re, i, numranges-1); 
+    	g = interpolate(gs, ge, i, numranges-1); 
+    	b = interpolate(bs, be, i, numranges-1);   
+	color = ((( r << 8 ) |  g ) << 8 ) | b;
+	colorramp[i] = '#' + color.toString(16);
+    }
+    /* ########################################### */
+
+
+
+	//var map = L.map('map', {fullscreenControl: true}).setView([10, 0], 2);
+	var map = L.map('map', {fullscreenControl: true, worldCopyJump: true }).fitWorld().zoomIn();
+	//map.setMaxBounds([[84.67351256610522, -174.0234375], [-58.995311187950925, 223.2421875]]);
+	map.setMaxBounds([[85, -175], [-60, 225]]);
+
+
+	// control that shows state info on hover
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = '<h4>Matches Density</h4>' +  (props ?
+			'<b>' + props.name + '</b><br />' + (props.density == undefined ? 'Insufficient Data' : props.density + '%') : 'Hover over a location');
+	};
+
+	info.addTo(map);
+
+	function getColor(v) {
+	    if (v == undefined) { return '#CCCCCC'; }
+	    for(i=classes.length-2;i >= 0;i--) { //skip the last class, since that is just the endcap...
+		if (v >= classes[i]) { return colorramp[i]; }
+	    }
+	
+	}
+	
+
+	function style(feature) {
+		return {
+			weight: 0.3,
+			opacity: 0.5,
+			color: '',
+			dashArray: '3',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.density)
+		};
+	}
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.8
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function makepopup(e) {
+		//map.fitBounds(e.target.getBounds());
+		//html = '<div STYLE="height: 130px; width: 231px; background: #000000; background-position: center; background-repeat: no-repeat; background-image: url(\'assets/images/loader.gif\');"><img src="' + data_shareimage[e.gnscc] + '" STYLE="height: 130px; width: 231px; display: inline; object-fit: cover;" onerror="this.onerror=null;this.src=\'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=\';"></div>';
+		html =  '<DIV STYLE="width: 100%;background-color: black;height: 40px;"><H1 STYLE="color: white;top: 10px;position: absolute; line-height: 1em;padding-left: 10px;text-shadow: 1px 1px #000000; font-size: 1.8em">' + e.name + '</H1></DIV>';
+		html = html + '<DIV STYLE="padding: 10px 0px 10px 0px; display: inline-block; width: 231px; height: 200px; background: #ffffff; " ss-container>' + (data_html[e.gnscc] == undefined ? 'No Data' : data_html[e.gnscc]) + '<br><br></DIV>';
+		html += '<DIV STYLE="top: 327px; width: 200px; height: 12px; left: 10px; z-index: 10;" CLASS="bottomfeather"></DIV>';
+		return html;
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({ mouseover: highlightFeature, mouseout: resetHighlight });
+		layer.bindPopup(makepopup(feature.properties), { minWidth: 230, maxWidth: 230, maxHeight: 350, className: 'popupCustom' }).on('click', function() { SimpleScrollbar.initAll(); } );
+	}
+	
+	geojson = L.geoJson(countrymap, { style: style, onEachFeature: onEachFeature }).addTo(map);
+
+
+	var legend = L.control({position: 'bottomright'});
+
+var labels = [];
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend');
+		var rlabels = [], from, to;
+
+		//add the "no data" label...
+		labels.push('<i style="background:#CCCCCC"></i> No Data');
+		
+		//now do the real labels..
+		for (var i = 0; i < classes.length - 1; i++) {
+			from = classes[i];
+			to = classes[i + 1];
+			labels.push('<i style="background:' + getColor(from) + '"></i> ' + from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+            }
+        });
+    });
+
+</script>
+
+<link rel="stylesheet" href="{% static 'assets/css/simple-scrollbar/simple-scrollbar.css' %}"></script>
+<!--[if IE 9]><script src="assets/js/classList-2014-01-31/classList.min.js"></script><![endif]-->
+<script src="{% static 'assets/js/simple-scrollbar/simple-scrollbar.min.js' %}"></script>
+						</div> 
+                    </div>        
+                </div>
+            </div>                              
+            <footer class="tm-bg-dark-blue">
+                <div class="container">
+                    <div class="row">
+                        <p class="col-sm-12 text-center tm-font-light tm-color-white p-4 tm-margin-b-0">
+                        Copyright &copy; <span class="tm-current-year">2021</span> Designed by Andrew Fox for Harvard's CS50X
+                        
+                        - Design: <a rel="nofollow" href="https://www.tooplate.com" class="tm-color-primary tm-font-normal" target="_parent">Tooplate</a></p>        
+                    </div>
+                </div>                
+            </footer>
+        </div>
+        
+        <!-- load JS files -->
+		            <!-- jQuery (https://jquery.com/download/) -->
+        <script src="{% static 'assets/js/popper.min.js' %}"></script>                    <!-- https://popper.js.org/ -->       
+        <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>                 <!-- https://getbootstrap.com/ -->
+        <script src="{% static 'assets/js/datepicker.min.js' %}"></script>                <!-- https://github.com/qodesmith/datepicker -->
+        <script src="{% static 'assets/js/jquery.singlePageNav.min.js' %}"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
+        <script src="{% static 'assets/slick/slick.min.js' %}"></script>                  <!-- http://kenwheeler.github.io/slick/ -->
+        <script>
+            $(document).ready(function(){
+               $('.tm-current-year').text(new Date().getFullYear());   
+               curreloc = window.location.pathname;
+               curreloc = curreloc.replace("/","");
+               if(curreloc == "")
+               {
+               $("#index").addClass("active");
+               }
+               else if(curreloc == "contact")
+               {
+                $("#contact").addClass("active");  
+               }
+               else if(curreloc == "articleView")
+               {
+                $("#articleView").addClass("active");  
+               }
+               else if(curreloc == "mapView")
+               {
+                $("#mapView").addClass("active");  
+               }
+               else if(curreloc == "index")
+               {
+                $("#index").addClass("active");  
+               }
+                                   
+           });
+    </script>
+</body>
+</html>
+{% endblock %}

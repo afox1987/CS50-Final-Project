@@ -1,0 +1,20 @@
+for instructions: 
+
+first open the project in visual studio , then
+
+install all this libraries:
+
+pip install django
+pip install secure-smtplib
+pip install requests
+pip install django-session-csrf
+pip install email-to
+pip install objectpath
+pip install Counter
+pip install pycountry
+
+and then open the terminal and run these commands:
+
+python manage.py makemigrations
+python manage.py migrate
+python managepy runserver
