@@ -51,8 +51,8 @@ When a user utilizes the keyword search, this initializes a GET request of the k
 
 # How to launch application
 1.	Check that you have Node version 8+
-2.	Clone the code: git clone https://github.com/afox1987/CS50-final-project.git
-3.	Run command prompt in the folder and run npm install to install all dependencies
-4.	Once installed run command npm start
+2.	Clone the code: `git clone` https://github.com/afox1987/CS50-final-project.git
+3.	Run command prompt in the folder and run `npm install` to install all dependencies
+4.	Once installed run command `npm start`
 5.	In your browser go to localhost:3000
 6.	Enjoy the project!
