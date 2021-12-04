@@ -17,4 +17,4 @@ and then open the terminal and run these commands:
 
 python manage.py makemigrations
 python manage.py migrate
-python managepy runserver
+python manage.py runserver
