@@ -1,7 +1,10 @@
 # CS50 Final Project: Global Open-Source News
-This project is a webpage where that allows users to search and view news from nearly every corner of every country in over 100 languages. The idea behind the project is my belief that the world will benefit from non-traditional news sources. This project provides the accessibility to find these non-traditional news sources, completely unabridged.
+## Video Demo: https://youtu.be/xNGvdZW9TOw
 
-# Features:
+## Description:
+This project is a webpage that allows users to search and view news from nearly every corner of every country in over 100 languages. The idea behind the project is my belief that the world will benefit from non-traditional news sources. This project provides the accessibility to find these non-traditional news sources, completely unabridged.
+
+## Features:
 
 •	Python
 
@@ -19,7 +22,7 @@ This project is a webpage where that allows users to search and view news from n
 
 •	additional small libraries or packages
 
-# How the webpage works?
+## How the webpage works?
 
 GDELT uses verbal conflict variables to quantify their data. Conflict variables are keywords that are queried throughout global news sources, and indicate that a conflict event has taken place. Various counties are color-coded, which quantifies the degree of conflict events (herein, data density) in the news for that country.
 
@@ -31,7 +34,7 @@ The Article View page displays various news articles from around the World. The 
 
 Finally, the Contact Us page displays a map and fillable information fields. The map is interactive, but defaults to the location this project was created, Alexandria, VA. The fillable fields include; Name, Email, Subject, and a larger Message box. Once the fields are filled, a user can click “Send Message Now” which will generate and send an email to the page owner.
 
-# API Integration
+## API Integration
 
 This webpage utilizes multiple API’s provided by the Global Database of Events, Language, and Tone (GDELT) Project. There are two main API’s that provide functionality to the webpage; the Visual Global Knowledge Graph and the Event Database.
 
@@ -49,10 +52,9 @@ Event Database:
 
 When a user utilizes the keyword search, this initializes a GET request of the keyword. Then a URL GET request is forwarded to the GDELT API, which queries that keyword. The response to that request is returned and integrated with Json/Geojson to show on the webpage.
 
-# How to launch application
-1.	Check that you have Node version 8+
-2.	Clone the code: `git clone` https://github.com/afox1987/CS50-final-project.git
-3.	Run command prompt in the folder and run `npm install` to install all dependencies
-4.	Once installed run command `npm start`
-5.	In your browser go to localhost:3000
-6.	Enjoy the project!
+## How to launch application
+1.	Clone the code: `git clone` https://github.com/afox1987/CS50-final-project.git
+2.	Open the project (I prefer Visual Studio Code) run `py manage.py runserver`
+3.	Django will initialize and a development server will provide a link to `http://127.0.0.1:8000/`
+4.	In your browser go to 'http://127.0.0.1:8000/'
+5.	Enjoy the project!
