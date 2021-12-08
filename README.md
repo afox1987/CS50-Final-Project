@@ -1,5 +1,6 @@
 # CS50 Final Project: Global Open-Source News
 ## Video Demo: https://youtu.be/xNGvdZW9TOw
+## Github URL: https://github.com/afox1987/CS50-Final-Project
 
 ## Description:
 This project is a webpage that allows users to search and view news from nearly every corner of every country in over 100 languages. The idea behind the project is my belief that the world will benefit from non-traditional news sources. This project provides the accessibility to find these non-traditional news sources, completely unabridged.
