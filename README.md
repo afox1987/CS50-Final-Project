@@ -50,9 +50,8 @@ Event Database:
 When a user utilizes the keyword search, this initializes a GET request of the keyword. Then a URL GET request is forwarded to the GDELT API, which queries that keyword. The response to that request is returned and integrated with Json/Geojson to show on the webpage.
 
 # How to launch application
-1.	Check that you have Node version 8+
-2.	Clone the code: `git clone` https://github.com/afox1987/CS50-final-project.git
-3.	Run command prompt in the folder and run `npm install` to install all dependencies
-4.	Once installed run command `npm start`
-5.	In your browser go to localhost:3000
+1.	2.	Clone the code: `git clone` https://github.com/afox1987/CS50-final-project.git
+3.	Open the project (I prefer Visual Studio Code) run `py manage.py runserver`
+4.	Django will initialize and a development server will provide a link to `http://127.0.0.1:8000/`
+5.	In your browser go to 'http://127.0.0.1:8000/'
 6.	Enjoy the project!
